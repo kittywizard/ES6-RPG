@@ -1,16 +1,24 @@
 //create character class
 let id = 0;
 class Character {
-    constructor(name, level, id) {
+    constructor(name, level) {
         this.name = name;
         this.level = level;
-        this.id = id;
+        this.id = id++;
     }
     view(details = '') {
-        return "<div class='character'>" +
-            this.name + " Lv. " + this.level + 
-            details +
-        "</div>"
+        return `
+        <div class="character" id="id-${this.id}">
+            ${this.name} Lv. ${this.level} 
+            ${details}
+        </div>`
+    }
+
+    domElement() {
+        const element = document.getElementById(`id-${this.id}`);
+        if(element) {
+            return element;
+        }
     }
 
 }
@@ -32,7 +40,7 @@ class Wizard extends Character {
 
 class Archer extends Character {
     constructor(name, level) {
-        super(name + " 🏹");
+        super(name + " 🏹", level);
         this.arrows = 3 * level;
     }
 
@@ -44,3 +52,52 @@ class Archer extends Character {
         return super.view(" Arrows: " + this.arrows);
     }
 }
+
+
+// Warriors should have a unique property: Strength
+// + strength should be 2.5 times the Warrior's level
+// + a new method: charge() which adds 1 to their strength 
+
+class Warrior extends Character {
+    constructor(name, level) {
+        super(name + " ⚔️", level);
+        this.strength = level * 2.5;
+    }
+    charge(){
+        this.strength++;
+    }
+
+    view() {
+        return super.view(" Strength: " + this.strength);
+    }
+
+
+}
+
+class Monk extends Character {
+    constructor(name, level) {
+        super(name + " 🤜", level);
+        this.ki = level * 3;
+    }
+
+    flurry() {
+        this.ki * 4;
+    }
+
+    view() {
+        return super.view( " Ki Level: " + this.ki);
+    }
+}
+
+let newChar = new Wizard('Tali', 8);
+let newChar2 = new Archer('Kuroi', 9); 
+let newChar3 = new Warrior("Raja", 7);
+let newChar4 = new Monk("Binx", 1);
+
+document.body.innerHTML = newChar.view();
+
+document.body.innerHTML += newChar2.view();
+document.body.innerHTML += newChar3.view();
+document.body.innerHTML += newChar4.view();
+
+console.log(newChar3.domElement())

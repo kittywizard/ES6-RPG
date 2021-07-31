@@ -7,12 +7,16 @@ class Character {
         this.name = name;
         this.level = level;
         this.id = id++;
+
+        this.hitpoints = level * 4;
+        this.maxHitpoints = level * 4;
     }
     view(details = '') {
         return `
         <div class="character" id="id-${this.id}">
-            ${this.name} Lv. ${this.level} 
-            ${details}
+            <div>${this.name} Lv. ${this.level} </div>
+            <div class="${this.id}-hitpoints">HP: ${this.hitpoints} / ${this.maxHitpoints}</div>
+            <div>${details}</div>
         </div>`
     }
 
@@ -21,6 +25,19 @@ class Character {
         if(element) {
             return element;
         }
+    }
+
+        /* 
+        Challenge: Add a new method 'updateHitpoints(newHitpoints)'
+            This should update the hitpoints property,
+            and then use document.getElementById() to get the 
+            Character's hitpoints display, and use object destructuring 
+            to update the innerHTML without using "this" in the string
+    */
+
+    updateHP(newHP) {
+        let { maxHitpoints, id } = this;
+        return document.getElementById(`${id}-hitpoints`).innerHTML = `HP: ${newHP} / ${maxHitpoints}`
     }
 
 }
@@ -85,40 +102,11 @@ class Character {
     }
 }
 
-/* 
-Section Review Challenge:
-
-    Create a new module, Enemies.js
-        It should include 3 new classes extending Character
-        Each should have their own placeholder ability
-            which we'll flesh out later:
-                Spider🕷 - bite()
-                Scorpion🦂 - sting()
-                Dragon🐉 - fireBreath()
-        The constructors for these classes should only require the enemy's level
-            The name will always just be the species 
-            + the emoji representation: `Dragon🐉`
-    
-    Then, update the Character class
-        -Add 2 new properties, hitpoints & maxHitpoints
-            both can be initialized to 4 times the Character's level
-        -Update the view method,
-            Finally, add a new div, that displays the Character's Hitpoints 
-            out of the maxHitpoints, this should have an id such as 'character-0-hitpoints' 
-            
-    Finally, create a new module called 'combat.js'
-        At this point, it should only export 1 function
-          startBattle(player, opponent)
-            This function should use Template Literals to 
-            construct and return a string with the views of both 
-            characters that are passed into it, 
-            and an additional button between 
-            them labelled "Attack" with an id of "attack-button"
-*/
+/* ENEMIES */
 
 class Spider extends Character {
-    constructor(name, level) {
-        super(name + " 🕷 ", level)
+    constructor(level) {
+        super("Spider 🕷 ", level)
     }
 
     bite() {
@@ -126,19 +114,39 @@ class Spider extends Character {
     }
 
     view() {
-        return super.view(" ")
+        return super.view(" Spider Nonsense");
     }
 }
 
+class Scorpion extends Character {
+    constructor(level) {
+        super("Scorpion 🦂")
+    }
+
+    sting() {
+        console.log("scorpion sting")
+    }
+
+    view() {
+        return super.view(" Scorpion Nonsense")
+    }
+}
+
+/* COMBAT */
+
+function startBattle(player, opponent) {
+    return `${player.view()} vs. ${opponent.view()}
+            <button class="btn" id="attack-btn">Attack</button>`;
+}
 
 let newChar = new Wizard('Tali', 8);
 let newChar2 = new Archer('Kuroi', 9); 
 let newChar3 = new Warrior("Raja", 7);
 let newChar4 = new Monk("Binx", 1);
 
-document.body.innerHTML = `testing`;
-document.body.innerHTML += newChar.view();
+let newEnemy = new Spider(4)
 
-document.body.innerHTML += newChar2.view();
-document.body.innerHTML += newChar3.view();
-document.body.innerHTML += newChar4.view();
+
+document.body.innerHTML += startBattle(newChar, newEnemy);
+
+newChar.updateHP(4);

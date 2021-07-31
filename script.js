@@ -15,7 +15,7 @@ class Character {
         return `
         <div class="character" id="id-${this.id}">
             <div>${this.name} Lv. ${this.level} </div>
-            <div class="${this.id}-hitpoints">HP: ${this.hitpoints} / ${this.maxHitpoints}</div>
+            <div id="${this.id}-hitpoints">HP: ${this.hitpoints} / ${this.maxHitpoints}</div>
             <div>${details}</div>
         </div>`
     }
@@ -27,17 +27,11 @@ class Character {
         }
     }
 
-        /* 
-        Challenge: Add a new method 'updateHitpoints(newHitpoints)'
-            This should update the hitpoints property,
-            and then use document.getElementById() to get the 
-            Character's hitpoints display, and use object destructuring 
-            to update the innerHTML without using "this" in the string
-    */
-
     updateHP(newHP) {
         let { maxHitpoints, id } = this;
-        return document.getElementById(`${id}-hitpoints`).innerHTML = `HP: ${newHP} / ${maxHitpoints}`
+        this.hitpoints = newHP;
+        const dom = document.getElementById(`${id}-hitpoints`);
+        dom.innerHTML = `HP: ${newHP} / ${maxHitpoints}`
     }
 
 }
@@ -137,6 +131,44 @@ class Scorpion extends Character {
 function startBattle(player, opponent) {
     return `${player.view()} vs. ${opponent.view()}
             <button class="btn" id="attack-btn">Attack</button>`;
+}
+
+/* 
+    Functions we'll need
+    
+    attack(attacker, target)
+     - inflicts damage to the target's hitpoints
+        equal to the attacker's level
+     - If either our player character or the enemy is knocked out,
+        call endBattle(attacker) to end the battle
+    
+    isKnockedOut(character)
+     - returns true if the character's hitpoints are less
+        than or equal to 0, and false otherwise
+        
+    endBattle(character) 
+     - Ends the battle, displaying the Character's view and
+        a button to start another battle
+     -  If the player character is NOT knocked out,
+        they should level-up, increasing their level
+        property by 1, and celebrating their victory 
+*/
+function attack(attacker, target) {
+    target.updateHP(attacker.level);
+    if(isKnockedOut) endBattle(attacker);
+}
+
+function isKnockedOut(character) {
+    if(character.hitpoints <= 0 ) { return true}
+    else { return false}
+}
+
+function endBattle(character) {
+    return document.body.innerHTML = `        
+    <div class="character" id="id-${character.id}">
+    <div>${character.name} Lv. ${character.level} </div>
+    <div id="${character.id}-hitpoints">HP: ${character.hitpoints} / ${character.maxHitpoints}</div>
+    </div>`
 }
 
 let newChar = new Wizard('Tali', 8);

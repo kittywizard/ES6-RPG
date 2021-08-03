@@ -81,7 +81,7 @@ class Character {
 
 }
 
- class Monk extends Character {
+class Monk extends Character {
     constructor(name, level) {
         super(name + " 🤜", level);
         this.ki = level * 3;
@@ -154,31 +154,32 @@ function startBattle(player, opponent) {
         property by 1, and celebrating their victory 
 */
 function attack(attacker, target) {
-    target.updateHP(attacker.level);
-    if(isKnockedOut) endBattle(attacker);
+    target.updateHP(target.hitpoints - attacker.level);
+    
+    if(isKnockedOut(target)) endBattle(attacker);
 }
 
 function isKnockedOut(character) {
-    if(character.hitpoints <= 0 ) { return true}
+    if(character.hitpoints >= 0 ) { return true}
     else { return false}
 }
 
 function endBattle(character) {
-    return document.body.innerHTML = `        
-    <div class="character" id="id-${character.id}">
-    <div>${character.name} Lv. ${character.level} </div>
-    <div id="${character.id}-hitpoints">HP: ${character.hitpoints} / ${character.maxHitpoints}</div>
-    </div>`
+    console.log(`${character.name} is victorious!`)
+    // return document.body.innerHTML = `        
+    // <div class="character" id="id-${character.id}">
+    // <div>${character.name} Lv. ${character.level} </div>
+    // <div id="${character.id}-hitpoints">HP: ${character.hitpoints} / ${character.maxHitpoints}</div>
+    // </div>`;
 }
 
-let newChar = new Wizard('Tali', 8);
-let newChar2 = new Archer('Kuroi', 9); 
-let newChar3 = new Warrior("Raja", 7);
-let newChar4 = new Monk("Binx", 1);
-
-let newEnemy = new Spider(4)
+let tali = new Wizard('Tali', 10);
+let spider = new Spider(4);
 
 
-document.body.innerHTML += startBattle(newChar, newEnemy);
+document.body.innerHTML += startBattle(tali, spider);
 
-newChar.updateHP(4);
+const attackBtn = document.getElementById('attack-btn');
+attackBtn.addEventListener('click', () => {
+    attack(tali, spider);
+});

@@ -1,7 +1,7 @@
 
 import { Archer, Warrior, Monk, Wizard } from './modules/classes.js';
 import {Spider, Scorpion } from './modules/enemies.js';
-import { startBattle } from './modules/combat.js'
+import { startBattle, attack, isKnockedOut, endBattle } from './modules/combat.js'
 
 // let newChar = new Wizard('Tali', 8);
 // let newChar2 = new Archer('Kuroi', 9); 

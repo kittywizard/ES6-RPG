@@ -21,4 +21,8 @@ export class Character {
         }
     }
 
+    updateHP(newHP) {
+        console.log(newHP)
+    }
+
 }

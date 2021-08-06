@@ -16,6 +16,7 @@ import { startBattle, attack, isKnockedOut, endBattle } from './modules/combat.j
 // document.body.innerHTML += newChar4.view();
 
 let tali = new Wizard('Tali', 10);
+
 let spider = new Spider(4);
 
 
@@ -23,5 +24,6 @@ document.body.innerHTML += startBattle(tali, spider);
 
 const attackBtn = document.getElementById('attack-btn');
 attackBtn.addEventListener('click', () => {
+    console.log('attack!!');
     attack(tali, spider);
 });

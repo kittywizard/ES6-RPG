@@ -26,15 +26,21 @@ export function startBattle(player, opponent) {
         they should level-up, increasing their level
         property by 1, and celebrating their victory 
 */
-export function attack(attacker, target) {
-    target.updateHP(target.hitpoints - attacker.level);
-    
+
+export function attack(character, target) {
+
+    console.log(`Target's HP: ${target.hitpoints} Attacker's Level: ${character.level}`)
+    target.updateHP(target.hitpoints - character.level);
+    console.log(target)
     if(isKnockedOut(target)) endBattle(attacker);
 }
 
-export function isKnockedOut(character) {
-    if(character.hitpoints >= 0 ) { return true}
-    else { return false}
+export function isKnockedOut(target) {
+    if(target.hitpoints <= 0) {
+         return true }
+
+    else 
+    {return false}
 }
 
 export function endBattle(character) {

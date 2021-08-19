@@ -35,13 +35,7 @@ export function attack(character, target) {
     if(isKnockedOut(target)) endBattle(attacker);
 }
 
-export function isKnockedOut(target) {
-    if(target.hitpoints <= 0) {
-         return true }
-
-    else 
-    {return false}
-}
+export const isKnockedOut = character => character.hitpoints <= 0;
 
 export function endBattle(character) {
     console.log(`${character.name} is victorious!`)
